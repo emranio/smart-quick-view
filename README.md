@@ -10,3 +10,21 @@ A simple jQuery plugin to grab a remote page's content and show in a popup modal
  * https://www.gnu.org/licenses/gpl-3.0.html
  *
  * Thanks to Ashraf for some excellent CSS contributions!
+
+ Usage:
+ jQuery( document ).ready( function( $ ) {
+    // begins
+	$.smartQuickView( '.shopengine-quickview-trigger', {
+		remoteContainer: '.shopengine-quickview-content-warper',
+		showLoadingSpinInModal: true,
+		payload: {
+			shopengine_quickview: 'modal-content',
+		},
+		onCompleteCallback: function() {
+			$( '.woocommerce-product-gallery' ).wc_product_gallery();
+		},
+	});
+    // ends
+});
+
+	
