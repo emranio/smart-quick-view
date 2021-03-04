@@ -1,0 +1,288 @@
+/**
+ * jQuery Smart Quick View Plugin
+ * Requires jQuery v1.7 or later
+ *
+ * @author emranio <hello@emran.io>
+ * @license GPL 3.0 or later
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * Thanks to Ashraf for some excellent CSS contributions!
+ */
+
+
+// by default modal wrapper will be display none
+.sqv-modal--wrapper,
+.sqv-element-loading-spin {
+	display: none;
+}
+
+// stop scrolling
+
+.sqv-element-clicked,
+.sqv-modal-opened {
+	overflow: hidden;
+}
+
+
+/*
+    --------------------------
+    sqv-element-loading-spin
+    --------------------------
+*/
+
+.sqv-element-clicked {
+
+	/*
+        ---------------------------------------
+        Spin into qu button / trigger element
+        --------------------------------------
+    */
+
+	.sqv-element-loading-spin {
+		display: block;
+		position: absolute;
+		color: #101010;
+
+		@extend %sqv_spin;
+
+		&::before {
+
+			@extend %sqv-spin-icon;
+			font-size: 20px;
+			display: block;
+			line-height: 16px;
+		}
+	}
+
+
+
+
+
+
+	/*
+        --------------------------
+        Spin into modal overlay
+        --------------------------
+    */
+
+	.sqv-modal {
+
+		&--overlay.sqv-loading-spin-show {
+
+			@extend %sqv-modal-overlay;
+		}
+
+		&__body {
+			display: none;
+		}
+	}
+
+	.sqv-modal--wrapper {
+
+		@extend %sqv-modal-wrapper;
+
+		.sqv-element-loading-spin {
+			position: absolute;
+			color: #fff;
+			width: 100px;
+			height: 100px;
+
+			@extend %sqv_spin;
+
+			&::before {
+
+				@extend %sqv-spin-icon;
+				font-size: 50px;
+				display: block;
+				width: 100%;
+				height: 100%;
+				text-align: center;
+				line-height: 96px;
+			}
+		}
+	}
+}
+
+
+/*
+    --------------------------
+    modal general style
+    --------------------------
+*/
+
+.sqv-modal-opened { // sqv-modal-opend placed at body tag
+
+	.sqv-modal--wrapper {
+
+		@extend %sqv-modal-wrapper;
+	}
+
+	.sqv-modal {
+
+		&--overlay {
+
+			@extend %sqv-modal-overlay;
+		}
+
+		&__body {
+			width: 80vw;
+			height: 80vh;
+			max-width: 1600px;
+			max-height: 800px;
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			opacity: 1;
+			transform: translate(-50%, -50%);
+			background: #fff;
+			animation: sqv-open 1s;
+			z-index: 999;
+
+			&--close-btn {
+				width: 50px;
+				height: 50px;
+				position: absolute;
+				right: 0;
+				top: 0;
+				background: red;
+				transform: scale(1) translate(20%, -20%);
+				transform-origin: center center;
+				border-radius: 50%;
+				text-align: center;
+				line-height: 50px;
+				color: #fff;
+				cursor: pointer;
+				transition: all linear 0.2s;
+
+				&:hover {
+					transform: translate(20%, -20%) scale(0.9);
+				}
+
+				//close icon
+				.sqv-close-icon {
+					position: relative;
+
+					&::before {
+						content: "\2716";
+						font-style: normal;
+					}
+				}
+			}
+
+			&--content {
+				overflow-y: scroll;
+				overflow-x: hidden;
+				padding: 20px 30px;
+				height: 100%;
+			}
+		}
+	}
+
+}
+
+
+
+/*
+    -----------------------------
+    extends , keyframes, mixins
+    ----------------------------
+*/
+
+%sqv-spin-icon {
+	content: "\2707";
+	font-style: normal;
+}
+
+%sqv-modal-overlay {
+	background: rgba($color: #000, $alpha: 0.8);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 99;
+}
+
+%sqv-modal-wrapper {
+	display: block; // when .sqv-model-open class found in body, sqv modal will appear
+}
+
+%sqv_spin {
+	animation-name: sqv_spin;
+	animation-duration: 2000ms;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+@keyframes sqv-open {
+
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes sqv_spin {
+
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@mixin tablet {
+
+	@media (max-width: 768px) {
+		@content;
+	}
+}
+
+
+@mixin mobile {
+
+	@media (max-width: 500px) {
+		@content;
+	}
+}
+
+
+/*
+    -----------------------------
+    modal responsive view
+    ----------------------------
+*/
+.sqv-modal-opened {
+
+	.sqv-modal {
+
+		&__body {
+
+			@include tablet {
+				width: 90vw;
+				height: 85vh;
+			}
+
+			@include mobile {
+				width: 100vw;
+				height: 100vh;
+			}
+
+			&--close-btn {
+
+				@include mobile {
+					transform: scale(1) translate(-5px, 5px);
+				}
+			}
+		}
+
+	}
+}
