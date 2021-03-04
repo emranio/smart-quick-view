@@ -1,0 +1,190 @@
+@charset "UTF-8";
+/**
+ * jQuery Smart Quick View Plugin
+ * Requires jQuery v1.7 or later
+ * 
+ * @author emranio <hello@emran.io>
+ * @license GPL 3.0 or later
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * Thanks to Ashraf for some excellent CSS contributions!
+ */
+.sqv-modal--wrapper,
+.sqv-element-loading-spin {
+  display: none;
+}
+
+.sqv-element-clicked,
+.sqv-modal-opened {
+  overflow: hidden;
+}
+
+/*
+    --------------------------
+    sqv-element-loading-spin
+    --------------------------
+*/
+.sqv-element-clicked {
+  /*
+      ---------------------------------------
+      Spin into qu button / trigger element
+      --------------------------------------
+  */
+  /*
+      --------------------------
+      Spin into modal overlay
+      --------------------------
+  */
+}
+.sqv-element-clicked .sqv-element-loading-spin {
+  display: block;
+  position: absolute;
+  color: #101010;
+}
+.sqv-element-clicked .sqv-element-loading-spin::before {
+  font-size: 20px;
+  display: block;
+  line-height: 16px;
+}
+.sqv-element-clicked .sqv-modal__body {
+  display: none;
+}
+.sqv-element-clicked .sqv-modal--wrapper .sqv-element-loading-spin {
+  position: absolute;
+  color: #fff;
+  width: 100px;
+  height: 100px;
+}
+.sqv-element-clicked .sqv-modal--wrapper .sqv-element-loading-spin::before {
+  font-size: 50px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 96px;
+}
+
+/*
+    --------------------------
+    modal general style
+    --------------------------
+*/
+.sqv-modal-opened .sqv-modal__body {
+  width: 80vw;
+  height: 80vh;
+  max-width: 1600px;
+  max-height: 800px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  opacity: 1;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  animation: sqv-open 1s;
+  z-index: 999;
+}
+.sqv-modal-opened .sqv-modal__body--close-btn {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: red;
+  transform: scale(1) translate(20%, -20%);
+  transform-origin: center center;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 50px;
+  color: #fff;
+  cursor: pointer;
+  transition: all linear 0.2s;
+}
+.sqv-modal-opened .sqv-modal__body--close-btn:hover {
+  transform: translate(20%, -20%) scale(0.9);
+}
+.sqv-modal-opened .sqv-modal__body--close-btn .sqv-close-icon {
+  position: relative;
+}
+.sqv-modal-opened .sqv-modal__body--close-btn .sqv-close-icon::before {
+  content: "✖";
+  font-style: normal;
+}
+.sqv-modal-opened .sqv-modal__body--content {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 20px 30px;
+  height: 100%;
+}
+
+/*
+    -----------------------------
+    extends , keyframes, mixins
+    ----------------------------
+*/
+.sqv-element-clicked .sqv-element-loading-spin::before, .sqv-element-clicked .sqv-modal--wrapper .sqv-element-loading-spin::before {
+  content: "✇";
+  font-style: normal;
+}
+
+.sqv-element-clicked .sqv-modal--overlay.sqv-loading-spin-show, .sqv-modal-opened .sqv-modal--overlay {
+  background: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+}
+
+.sqv-element-clicked .sqv-modal--wrapper, .sqv-modal-opened .sqv-modal--wrapper {
+  display: block;
+}
+
+.sqv-element-clicked .sqv-element-loading-spin, .sqv-element-clicked .sqv-modal--wrapper .sqv-element-loading-spin {
+  animation-name: sqv_spin;
+  animation-duration: 2000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes sqv-open {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes sqv_spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/*
+    -----------------------------
+    modal responsive view
+    ----------------------------
+*/
+@media (max-width: 768px) {
+  .sqv-modal-opened .sqv-modal__body {
+    width: 90vw;
+    height: 85vh;
+  }
+}
+@media (max-width: 500px) {
+  .sqv-modal-opened .sqv-modal__body {
+    width: 100vw;
+    height: 100vh;
+  }
+}
+@media (max-width: 500px) {
+  .sqv-modal-opened .sqv-modal__body--close-btn {
+    transform: scale(1) translate(-5px, 5px);
+  }
+}
